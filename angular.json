@@ -45,7 +45,8 @@
               "src/assets/js/misc.js",
               "src/assets/js/settings.js",
               "src/assets/js/todolist.js",
-              "src/assets/js/dashboard.js"
+              "src/assets/js/dashboard.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {

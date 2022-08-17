@@ -1,0 +1,81 @@
+
+<div class="container mt-4">
+  <ol class="breadcrumb border border-white">
+    <li class="breadcrumb-item"><a routerLink="/admindash"><i class="mdi mdi-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">Employees Management</li>
+  </ol>
+  <ng-container *ngIf="employees | async as listEmployees; else failure">
+    <div class="card border-white">
+      <div class="card-header bg-transparent mt-2">
+        <div class="d-flex justify-content-between" *ngIf="searchFormGroup">
+          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="mdi mdi-account-plus"></i>
+          </button>
+          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchEmployees()" class="w-25">
+            <div class="input-group">
+              <input type="text" formControlName="keyword" class="form-control" placeholder="Insert keyword">
+              <button class="btn btn-primary"><i class="mdi mdi-magnify"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Full Name</th>
+              <th>UserName</th>
+              <th>Email</th>
+              <th>Details</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let e of employees |async">
+              <td>{{e.id}}</td>
+              <td>{{e.fullName}}</td>
+              <td>{{e.userName}}</td>
+              <td>{{e.email}}</td>
+              <td>
+                <button class="btn btn-primary">
+                  <i class="mdi mdi-open-in-new"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-success">
+                  <i class="mdi mdi-account-edit" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="handleDeleteEmploye(e)">
+                  <i class="mdi mdi-account-minus"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failure>
+    <div class="text-danger">{{errorMessage}}</div></ng-template>
+</div>
+
+<!--Add Employe pop up form-->
+
+<div class="modal fade mt-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Employe Form</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+  </div>
+</div>
+
+
