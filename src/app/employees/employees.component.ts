@@ -5,7 +5,7 @@ import { catchError,first,map, Observable, throwError } from 'rxjs';
 import { Employe } from '../model/employe.model';
 import { EmployeService } from '../services/employe.service';
 
-declare var window:any;
+
 
 @Component({
   selector: 'app-employees',
@@ -17,10 +17,12 @@ export class EmployeesComponent implements OnInit {
   errorMessage! : string;
   searchFormGroup : FormGroup | undefined ;
   formModal:any;
-  newEmployeFormGroup! : FormGroup
+  newEmployeFormGroup! : FormGroup;
+
   constructor(private employeService : EmployeService, private fb : FormBuilder , private router:Router) { }
 
   ngOnInit(): void {
+
     this.searchFormGroup=this.fb.group({
       keyword : this.fb.control("")
     });
@@ -30,14 +32,13 @@ export class EmployeesComponent implements OnInit {
         return throwError(err);
       })
     );
-    this.formModal=new window.bootstrap.Modal(
-      document.getElementById("exampleModal")
-    );
+
     this.newEmployeFormGroup=this.fb.group({
-      fullName:this.fb.control(null,[Validators.required]),
-      userName:this.fb.control(null,[Validators.required]),
-      email:this.fb.control(null,[Validators.required,Validators.email])
+      fullName:this.fb.control('',[Validators.required]),
+      userName:this.fb.control('',[Validators.required]),
+      email:this.fb.control('',[Validators.required,Validators.email])
     });
+
   }
   handleSearchEmployees(){
     let kw = this.searchFormGroup?.value.keyword;
@@ -52,12 +53,13 @@ export class EmployeesComponent implements OnInit {
     let employe:Employe=this.newEmployeFormGroup.value;
     this.employeService.saveEmployees(employe).subscribe({
       next: data =>{
-        alert("Employe has been successfully saved!");
+        console.log("Employe has been successfully saved!");
       },error : err => {
         console.log(err);
       }
     });
   }
+
   handleDeleteEmploye(e: Employe){
     let conf = confirm("Are you sure?")
     if(!conf) return;
