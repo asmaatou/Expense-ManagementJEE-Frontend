@@ -22,7 +22,7 @@ export class EmployeService {
   public deleteEmployees(id:number){
     return this.http.delete(environment.backendHost+"/employes/"+id)
   }
-  public editEmployees(id:number){
-    return this.http.put(environment.backendHost+"/employes/",id)
+  public editEmployees(id:number,employe : Employe ):Observable<Employe>{
+    return this.http.put<Employe>(environment.backendHost+"/employes/"+id,employe)
   }
 }

@@ -14,6 +14,7 @@ import { ManagersComponent } from './managers/managers.component';
 import { AdminsComponent } from './admins/admins.component';
 import { DepensesComponent } from './depenses/depenses.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

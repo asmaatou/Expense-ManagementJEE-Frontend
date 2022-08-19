@@ -22,4 +22,7 @@ export class AdminService {
   public deleteAdmins(id:number){
     return this.http.delete(environment.backendHost+"/admins/"+id)
   }
+  public editAdmins(id : number , admin:Admin):Observable<Admin>{
+    return this.http.put<Admin>(environment.backendHost+"/admins/"+id,admin)
+  }
 }

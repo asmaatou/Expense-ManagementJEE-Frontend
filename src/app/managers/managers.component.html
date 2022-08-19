@@ -9,7 +9,7 @@
     <div class="card border-white">
       <div class="card-header bg-transparent mt-2">
         <div class="d-flex justify-content-between" *ngIf="searchFormGroup">
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal()">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="mdi mdi-account-plus"></i>
           </button>
           <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchManagers()" class="w-25">
@@ -45,7 +45,7 @@
                 </button>
               </td>
               <td>
-                <button class="btn btn-success">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="handleEditManager(m)">
                   <i class="mdi mdi-account-edit"></i>
                 </button>
               </td>
@@ -64,17 +64,17 @@
     <div class="text-danger">{{errorMessage}}</div></ng-template>
 </div>
 
-<!--Add Employe pop up form-->
 
-<div class="modal fade mt-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="container w-25">
-    <div class="card">
-      <div class="card-header bg-transparent">
-        <h1 class="card-title mt-4">Add Manager</h1>
-        <p class="card-description">Manager Personal Informations</p>
+<!--Add Manager pop up form-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Manager</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="card-body">
-        <form class="forms-sample" [formGroup]="newManagerFormGroup" (ngSubmit)="handleSaveManager()">
+      <div class="modal-body">
+        <form class="forms-sample" [formGroup]="newManagerFormGroup" >
           <div class="form-group">
             <label for="exampleInputUsername1">Full name</label>
             <input type="text" class="form-control" formControlName="fullName"  placeholder="Full name" />
@@ -102,10 +102,71 @@
               && newManagerFormGroup.controls['email'].errors!['required']"
             >* Email is not Valid</span>
           </div>
-          <button type="submit" class="btn btn-primary mr-2 mt-4" [disabled]="!newManagerFormGroup.valid"> Submit </button>
-          <button class="btn btn-danger mt-4">Reset</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addManager()">Add</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+
+
+<!--Edit Admin pop up form-->
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Manager</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="forms-sample" [formGroup]="newManagerFormGroup" >
+          <div class="form-group">
+            <input type="hidden" class="form-control" formControlName="id"  placeholder="ID" />
+            <span class="text-danger"
+              *ngIf="newManagerFormGroup.controls['id'].touched
+              && newManagerFormGroup.controls['id'].errors
+              && newManagerFormGroup.controls['id'].errors!['required']"
+            >* ID is Required</span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputUsername1">Full name</label>
+            <input type="text" class="form-control" formControlName="fullName"  placeholder="Full name" />
+            <span class="text-danger"
+              *ngIf="newManagerFormGroup.controls['fullName'].touched
+              && newManagerFormGroup.controls['fullName'].errors
+              && newManagerFormGroup.controls['fullName'].errors!['required']"
+            >* Full Name is Required</span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputUsername1">Username</label>
+            <input type="text" class="form-control" formControlName="userName" placeholder="Username" />
+            <span class="text-danger"
+              *ngIf="newManagerFormGroup.controls['userName'].touched
+              && newManagerFormGroup.controls['userName'].errors
+              && newManagerFormGroup.controls['userName'].errors!['required']"
+            >* UserName is Required</span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="Email" />
+            <span class="text-danger"
+              *ngIf="newManagerFormGroup.controls['email'].touched
+              && newManagerFormGroup.controls['email'].errors
+              && newManagerFormGroup.controls['email'].errors!['required']"
+            >* Email is not Valid</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateManager()">Edit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

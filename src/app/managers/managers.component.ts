@@ -5,7 +5,7 @@ import { catchError,map, Observable, throwError } from 'rxjs';
 import { Manager } from '../model/manager.model';
 import { ManagerService } from '../services/manager.service';
 
-declare var window:any;
+
 @Component({
   selector: 'app-managers',
   templateUrl: './managers.component.html',
@@ -17,6 +17,7 @@ export class ManagersComponent implements OnInit {
   searchFormGroup : FormGroup | undefined ;
   formModal:any;
   newManagerFormGroup! : FormGroup
+  mng: Manager = new Manager()
   constructor(private managerService : ManagerService, private fb : FormBuilder , private router:Router) { }
 
   ngOnInit(): void {
@@ -29,10 +30,8 @@ export class ManagersComponent implements OnInit {
         return throwError(err);
       })
     );
-    this.formModal=new window.bootstrap.Modal(
-      document.getElementById("exampleModal")
-    );
     this.newManagerFormGroup=this.fb.group({
+      id:this.fb.control(null,[Validators.required]),
       fullName:this.fb.control(null,[Validators.required]),
       userName:this.fb.control(null,[Validators.required]),
       email:this.fb.control(null,[Validators.required,Validators.email])
@@ -46,16 +45,6 @@ export class ManagersComponent implements OnInit {
         return throwError(err);
       })
     );
-  }
-  handleSaveManager(){
-    let manager:Manager=this.newManagerFormGroup.value;
-    this.managerService.saveManagers(manager).subscribe({
-      next: data =>{
-        alert("Manager has been successfully saved!");
-      },error : err => {
-        console.log(err);
-      }
-    });
   }
   handleDeleteManager(m: Manager){
     let conf = confirm("Are you sure?")
@@ -74,7 +63,35 @@ export class ManagersComponent implements OnInit {
       }
     })
   }
-  openModal(){
-    this.formModal.show();
+  handleEditManager(manager:Manager){
+    this.newManagerFormGroup.controls['id'].setValue(manager.id);
+    this.newManagerFormGroup.controls['fullName'].setValue(manager.fullName);
+    this.newManagerFormGroup.controls['userName'].setValue(manager.userName);
+    this.newManagerFormGroup.controls['email'].setValue(manager.email);
+  }
+  updateManager(){
+    this.mng.id=this.newManagerFormGroup.value.id;
+    this.mng.fullName=this.newManagerFormGroup.value.fullName;
+    this.mng.userName=this.newManagerFormGroup.value.userName;
+    this.mng.email=this.newManagerFormGroup.value.email;
+    this.managerService.editManagers(this.mng.id,this.mng).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
+  }
+
+  addManager(){
+    console.log(this.newManagerFormGroup);
+    this.mng.id=this.newManagerFormGroup.value.id;
+    this.mng.fullName=this.newManagerFormGroup.value.fullName;
+    this.mng.userName=this.newManagerFormGroup.value.userName;
+    this.mng.email=this.newManagerFormGroup.value.email;
+
+    this.managerService.saveManagers(this.mng).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
   }
 }

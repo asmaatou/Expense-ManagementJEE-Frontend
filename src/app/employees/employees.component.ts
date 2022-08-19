@@ -18,7 +18,7 @@ export class EmployeesComponent implements OnInit {
   searchFormGroup : FormGroup | undefined ;
   formModal:any;
   newEmployeFormGroup! : FormGroup;
-
+  emp : Employe = new Employe();
   constructor(private employeService : EmployeService, private fb : FormBuilder , private router:Router) { }
 
   ngOnInit(): void {
@@ -26,6 +26,7 @@ export class EmployeesComponent implements OnInit {
     this.searchFormGroup=this.fb.group({
       keyword : this.fb.control("")
     });
+
     this.employees=this.employeService.getEmployees().pipe(
       catchError(err => {
         this.errorMessage=err.message;
@@ -34,12 +35,14 @@ export class EmployeesComponent implements OnInit {
     );
 
     this.newEmployeFormGroup=this.fb.group({
+      id:this.fb.control('',[Validators.required]),
       fullName:this.fb.control('',[Validators.required]),
       userName:this.fb.control('',[Validators.required]),
       email:this.fb.control('',[Validators.required,Validators.email])
     });
 
   }
+
   handleSearchEmployees(){
     let kw = this.searchFormGroup?.value.keyword;
     this.employees=this.employeService.searchEmployees(kw).pipe(
@@ -49,17 +52,6 @@ export class EmployeesComponent implements OnInit {
       })
     );
   }
-  handleSaveEmploye(){
-    let employe:Employe=this.newEmployeFormGroup.value;
-    this.employeService.saveEmployees(employe).subscribe({
-      next: data =>{
-        console.log("Employe has been successfully saved!");
-      },error : err => {
-        console.log(err);
-      }
-    });
-  }
-
   handleDeleteEmploye(e: Employe){
     let conf = confirm("Are you sure?")
     if(!conf) return;
@@ -75,6 +67,38 @@ export class EmployeesComponent implements OnInit {
       }, error : err => {
         console.log(err);
       }
+    })
+  }
+
+  handleEditEmploye(employe :Employe){
+    this.newEmployeFormGroup.controls['id'].setValue(employe.id);
+    this.newEmployeFormGroup.controls['fullName'].setValue(employe.fullName);
+    this.newEmployeFormGroup.controls['userName'].setValue(employe.userName);
+    this.newEmployeFormGroup.controls['email'].setValue(employe.email);
+  }
+  updateEmployee(){
+    this.emp.id=this.newEmployeFormGroup.value.id;
+    this.emp.fullName=this.newEmployeFormGroup.value.fullName;
+    this.emp.userName=this.newEmployeFormGroup.value.userName;
+    this.emp.email=this.newEmployeFormGroup.value.email;
+
+    this.employeService.editEmployees(this.emp.id,this.emp).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
+  }
+  addEmploye(){
+    console.log(this.newEmployeFormGroup);
+    this.emp.id=this.newEmployeFormGroup.value.id;
+    this.emp.fullName=this.newEmployeFormGroup.value.fullName;
+    this.emp.userName=this.newEmployeFormGroup.value.userName;
+    this.emp.email=this.newEmployeFormGroup.value.email;
+
+    this.employeService.saveEmployees(this.emp).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
     })
   }
 }

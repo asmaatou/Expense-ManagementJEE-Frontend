@@ -22,5 +22,8 @@ export class ManagerService {
   public deleteManagers(id:number){
     return this.http.delete(environment.backendHost+"/managers/"+id)
   }
+  public editManagers(id:number,manager : Manager):Observable<Manager>{
+    return this.http.put<Manager>(environment.backendHost+"/employes/"+id,manager)
+  }
 }
 

@@ -5,7 +5,7 @@ import { catchError,map, Observable, throwError } from 'rxjs';
 import { Admin } from '../model/admin.model';
 import { AdminService } from '../services/admin.service';
 
-declare var window:any;
+
 @Component({
   selector: 'app-admins',
   templateUrl: './admins.component.html',
@@ -18,6 +18,7 @@ export class AdminsComponent implements OnInit {
   searchFormGroup : FormGroup | undefined ;
   formModal:any;
   newAdminFormGroup! : FormGroup
+  adm: Admin = new Admin()
   constructor(private adminService : AdminService, private fb : FormBuilder , private router:Router) { }
 
   ngOnInit(): void {
@@ -30,10 +31,8 @@ export class AdminsComponent implements OnInit {
         return throwError(err);
       })
     );
-    this.formModal=new window.bootstrap.Modal(
-      document.getElementById("exampleModal")
-    );
     this.newAdminFormGroup=this.fb.group({
+      id:this.fb.control(null,[Validators.required]),
       fullName:this.fb.control(null,[Validators.required]),
       userName:this.fb.control(null,[Validators.required]),
       email:this.fb.control(null,[Validators.required,Validators.email])
@@ -47,16 +46,6 @@ export class AdminsComponent implements OnInit {
         return throwError(err);
       })
     );
-  }
-  handleSaveAdmin(){
-    let admin:Admin=this.newAdminFormGroup.value;
-    this.adminService.saveAdmins(admin).subscribe({
-      next: data =>{
-        alert("Admin has been successfully saved!");
-      },error : err => {
-        console.log(err);
-      }
-    });
   }
   handleDeleteAdmin(a: Admin){
     let conf = confirm("Are you sure?")
@@ -75,8 +64,36 @@ export class AdminsComponent implements OnInit {
       }
     })
   }
-  openModal(){
-    this.formModal.show();
+  handleEditAdmin(admin:Admin){
+    this.newAdminFormGroup.controls['id'].setValue(admin.id);
+    this.newAdminFormGroup.controls['fullName'].setValue(admin.fullName);
+    this.newAdminFormGroup.controls['userName'].setValue(admin.userName);
+    this.newAdminFormGroup.controls['email'].setValue(admin.email);
+  }
+  updateAdmin(){
+    this.adm.id=this.newAdminFormGroup.value.id;
+    this.adm.fullName=this.newAdminFormGroup.value.fullName;
+    this.adm.userName=this.newAdminFormGroup.value.userName;
+    this.adm.email=this.newAdminFormGroup.value.email;
+    this.adminService.editAdmins(this.adm.id,this.adm).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
+  }
+
+  addAdmin(){
+    console.log(this.newAdminFormGroup);
+    this.adm.id=this.newAdminFormGroup.value.id;
+    this.adm.fullName=this.newAdminFormGroup.value.fullName;
+    this.adm.userName=this.newAdminFormGroup.value.userName;
+    this.adm.email=this.newAdminFormGroup.value.email;
+
+    this.adminService.saveAdmins(this.adm).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
   }
 
 

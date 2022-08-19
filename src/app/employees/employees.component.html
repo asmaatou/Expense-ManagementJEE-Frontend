@@ -45,8 +45,8 @@
                 </button>
               </td>
               <td>
-                <button class="btn btn-success">
-                  <i class="mdi mdi-account-edit" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="handleEditEmploye(e)">
+                  <i class="mdi mdi-account-edit"></i>
                 </button>
               </td>
               <td>
@@ -70,11 +70,19 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Employe Form</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Employe</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="forms-sample" [formGroup]="newEmployeFormGroup" (ngSubmit)="handleSaveEmploye()">
+        <form class="forms-sample" [formGroup]="newEmployeFormGroup">
+          <div class="form-group">
+            <input type="hidden" class="form-control" formControlName="id"  placeholder="Full name" />
+            <span class="text-danger"
+              *ngIf="newEmployeFormGroup.controls['fullName'].touched
+              && newEmployeFormGroup.controls['fullName'].errors
+              && newEmployeFormGroup.controls['fullName'].errors!['required']"
+            >* Full Name is Required</span>
+          </div>
           <div class="form-group">
             <label for="exampleInputUsername1">Full name</label>
             <input type="text" class="form-control" formControlName="fullName"  placeholder="Full name" />
@@ -102,15 +110,70 @@
               && newEmployeFormGroup.controls['email'].errors!['required']"
             >* Email is not Valid</span>
           </div>
-          <button type="button" class="btn btn-primary" [disabled]="!newEmployeFormGroup.valid">Save</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="addEmploye()">Edit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
       </div>
     </div>
   </div>
 </div>
 
+
+<!--Edit Employe pop up form-->
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Employe</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="forms-sample" [formGroup]="newEmployeFormGroup">
+          <div class="form-group">
+            <input type="hidden" class="form-control" formControlName="id"  placeholder="Full name" />
+            <span class="text-danger"
+              *ngIf="newEmployeFormGroup.controls['fullName'].touched
+              && newEmployeFormGroup.controls['fullName'].errors
+              && newEmployeFormGroup.controls['fullName'].errors!['required']"
+            >* Full Name is Required</span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputUsername1">Full name</label>
+            <input type="text" class="form-control" formControlName="fullName"  placeholder="Full name" />
+            <span class="text-danger"
+              *ngIf="newEmployeFormGroup.controls['fullName'].touched
+              && newEmployeFormGroup.controls['fullName'].errors
+              && newEmployeFormGroup.controls['fullName'].errors!['required']"
+            >* Full Name is Required</span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputUsername1">Username</label>
+            <input type="text" class="form-control" formControlName="userName" placeholder="Username" />
+            <span class="text-danger"
+              *ngIf="newEmployeFormGroup.controls['userName'].touched
+              && newEmployeFormGroup.controls['userName'].errors
+              && newEmployeFormGroup.controls['userName'].errors!['required']"
+            >* UserName is Required</span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="Email" />
+            <span class="text-danger"
+              *ngIf="newEmployeFormGroup.controls['email'].touched
+              && newEmployeFormGroup.controls['email'].errors
+              && newEmployeFormGroup.controls['email'].errors!['required']"
+            >* Email is not Valid</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="updateEmployee()">Edit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
