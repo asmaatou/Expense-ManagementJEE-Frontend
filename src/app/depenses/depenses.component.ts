@@ -36,33 +36,27 @@ export class DepensesComponent implements OnInit {
       typeD :   this.fb.control('',[Validators.required]),
       montant : this.fb.control('',[Validators.required]),
       status :  this.fb.control('',[Validators.required]),
-      employe:  this.fb.group({
-        id:this.fb.control(['',[Validators.required]]),
-        userName:this.fb.control(['',[Validators.required]]),
-        fullName:this.fb.control(['',[Validators.required]]),
-        email:this.fb.control(['',[Validators.required]]),
-      })
+      employeDTO: this.fb.group({
+        id: ['',[Validators.required]],
+        fullName:['',[Validators.required]],
+        userName:['',[Validators.required]],
+        email:['',[Validators.required]]
+      }),
     });
-
-
   }
-
   handleEditDepense(dep : Depense){
     this.newDepenseFormGroup.controls['id'].setValue(dep.id);
-    this.newDepenseFormGroup.controls['dateDepense'].setValue(dep.dateDepense);
     this.newDepenseFormGroup.controls['client'].setValue(dep.client);
     this.newDepenseFormGroup.controls['produit_Projet'].setValue(dep.produit_Projet);
-    this.newDepenseFormGroup.controls['typeI'].setValue(dep.typeI);
-    this.newDepenseFormGroup.controls['typeD'].setValue(dep.typeD);
     this.newDepenseFormGroup.controls['montant'].setValue(dep.montant);
     this.newDepenseFormGroup.controls['status'].setValue(dep.status);
-    this.newDepenseFormGroup.controls['employeId'].setValue(dep.employe.id);
+    this.newDepenseFormGroup.controls['fullName'].setValue(dep.employeDTO.fullName)
   }
 
-  updateDepense(){
-    this.dep.id=this.newDepenseFormGroup.value.id;
-    this.dep.dateDepense=this.newDepenseFormGroup.value.dateDepense;
-    this.dep.client=this.newDepenseFormGroup.value.client;
+  //updateDepense(){
+    //this.dep.id=this.newDepenseFormGroup.value.id;
+    //this.dep.dateDepense=this.newDepenseFormGroup.value.dateDepense;
+    /*this.dep.client=this.newDepenseFormGroup.value.client;
     this.dep.produit_Projet=this.newDepenseFormGroup.value.produit_Projet;
     this.dep.typeI=this.newDepenseFormGroup.value.typeI;
     this.dep.typeD=this.newDepenseFormGroup.value.typeD;
@@ -74,6 +68,6 @@ export class DepensesComponent implements OnInit {
     },err=>{
       console.log(err);
     })
-  }
+  }*/
 
 }

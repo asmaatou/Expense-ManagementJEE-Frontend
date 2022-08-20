@@ -9,7 +9,7 @@ export class Depense{
   typeD : string='';
   montant : number=0;
   status : string='';
-  employe: Employe = {id:0,userName:'',fullName:'',email:''};
+  employeDTO : Employe = new Employe();
 }
 
 

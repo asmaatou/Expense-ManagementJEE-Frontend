@@ -31,6 +31,7 @@
               <th>Expenses Type</th>
               <th>Amount</th>
               <th>Status</th>
+              <th>Emp FullName</th>
               <th>Details</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -46,13 +47,14 @@
               <td>{{d.typeD}}</td>
               <td>{{d.montant}}</td>
               <td>{{d.status}}</td>
+              <td>{{d.employeDTO.fullName}}</td>
               <td>
                 <button class="btn btn-primary">
                   <i class="mdi mdi-open-in-new"></i>
                 </button>
               </td>
               <td>
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="handleEditDepense(d)">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" (click)="handleEditDepense(d)" >
                   <i class="mdi mdi-lead-pencil"></i>
                 </button>
               </td>
@@ -61,6 +63,7 @@
                   <i class="mdi mdi-database-minus"></i>
                 </button>
               </td>
+
             </tr>
           </tbody>
         </table>
@@ -153,7 +156,7 @@
 
 
 
-<!--Edit Expense pop up form-->
+<!--Edit Expense pop up form
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -193,7 +196,6 @@
               <option>HEBERGEMENT</option>
             </select>
           </div>
-
           <div class="col-12">
             <label for="inputAddress2" class="form-label">Date</label>
             <input type="date" class="form-control" id="inputAddress2" formControlName="dateDepense">
@@ -227,31 +229,48 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" (click)="updateDepense()">Edit</button>
+            <button type="button" class="btn btn-primary">Edit</button>
           </div>
         </form>
       </div>
-
     </div>
   </div>
 </div>
+-->
 
-
-
-<!--
-          <div class="col-12">
-            <label for="inputAddress2" class="form-label">ID</label>
-            <input type="number" class="form-control" id="inputAddress2">
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Expense</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="newDepenseFormGroup">
+          <div class="form-group">
+            <input type="hidden" class="form-control" formControlName="id" placeholder="ID" />
           </div>
           <div class="col-6">
-            <label for="inputAddress" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="inputAddress">
+            <label for="inputAddress" class="form-label">Client</label>
+            <input type="text" class="form-control" id="inputAddress" formControlName="client" placeholder="Client Name">
           </div>
           <div class="col-md-6">
-            <label for="inputEmail4" class="form-label">UserName</label>
-            <input type="text" class="form-control" id="inputEmail4">
+            <label for="inputEmail4" class="form-label">Product/Project</label>
+            <input type="text" class="form-control" id="inputEmail4" formControlName="produit_Projet" placeholder="ex : Oracle">
           </div>
-          <div class="col-12">
-            <label for="inputAddress2" class="form-label">Email</label>
-            <input type="email" class="form-control" id="inputAddress2">
-          </div>-->
+          <div class="col-6" formGroupName="employeDTO" >
+            <label for="inputAddress" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputAddress"  formControlName="fullName">
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="form-control" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Edit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
