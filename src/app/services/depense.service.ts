@@ -13,5 +13,14 @@ export class DepenseService {
     public getDepenses():Observable<Array<Depense>>{
       return this.http.get<Array<Depense>>(environment.backendHost+"/depenses")
     }
+    public saveDepenses(depense : Depense):Observable<Depense>{
+      return this.http.post<Depense>(environment.backendHost+"/depenses",depense)
+    }
+    public deleteDepenses(id:number){
+      return this.http.delete(environment.backendHost+"/depenses/"+id)
+    }
+    public editDepenses(id : number , depense:Depense):Observable<Depense>{
+      return this.http.put<Depense>(environment.backendHost+"/depenses/"+id,depense)
+    }
 
 }

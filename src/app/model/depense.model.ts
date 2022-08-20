@@ -1,15 +1,15 @@
-import { DatePipe } from "@angular/common";
 import { Employe } from "./employe.model";
 
-export interface Depense{
-  id : number;
-  dateDepense : Date;
-  client : string;
-  produit_Projet: string;
-  typeI : string;
-  typeD : string;
-  montant : number;
-  status : string;
-  employe : Employe;
-
+export class Depense{
+  id : number=0;
+  dateDepense : Date = new Date();
+  client : string='';
+  produit_Projet: string='';
+  typeI : string='';
+  typeD : string='';
+  montant : number=0;
+  status : string='';
+  employe: Employe = {id:0,userName:'',fullName:'',email:''};
 }
+
+

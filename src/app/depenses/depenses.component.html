@@ -8,12 +8,12 @@
     <div class="card border-white">
       <div class="card-header bg-transparent mt-2">
         <div class="d-flex justify-content-between">
-          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <i class="mdi mdi-account-plus"></i>
+          <button class="btn btn-primary" type="button" >
+            <i class="mdi mdi-database-plus"></i>
           </button>
           <form  class="w-25">
             <div class="input-group">
-              <input type="text" formControlName="keyword" class="form-control" placeholder="Insert keyword">
+              <input type="text" class="form-control" placeholder="Insert keyword">
               <button class="btn btn-primary"><i class="mdi mdi-magnify"></i></button>
             </div>
           </form>
@@ -26,11 +26,14 @@
               <th>ID</th>
               <th>Date</th>
               <th>Client</th>
-              <th>Produit / Projet</th>
+              <th>Product / Project</th>
               <th>Intervention Type</th>
               <th>Expenses Type</th>
-              <th>Price</th>
+              <th>Amount</th>
               <th>Status</th>
+              <th>Details</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -49,13 +52,13 @@
                 </button>
               </td>
               <td>
-                <button class="btn btn-success">
-                  <i class="mdi mdi-account-edit" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="handleEditDepense(d)">
+                  <i class="mdi mdi-lead-pencil"></i>
                 </button>
               </td>
               <td>
                 <button class="btn btn-danger">
-                  <i class="mdi mdi-account-minus"></i>
+                  <i class="mdi mdi-database-minus"></i>
                 </button>
               </td>
             </tr>
@@ -67,3 +70,188 @@
   <ng-template #failure>
     <div class="text-danger">{{errorMessage}}</div></ng-template>
 </div>
+
+
+
+
+<!--Add Expense pop up form
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Expense</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3">
+          <div class="col-6">
+            <label for="inputAddress" class="form-label">Client</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="Client Name">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Product/Project</label>
+            <input type="text" class="form-control" id="inputEmail4" placeholder="ex : Oracle">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Intervention Type</label>
+            <select id="inputState" class="form-select h-50">
+              <option selected>Choose...</option>
+              <option>Reunion</option>
+              <option>Installation</option>
+              <option>Maintenance</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Expense Type</label>
+            <select id="inputState" class="form-select h-50">
+              <option selected>Choose...</option>
+              <option>TAXI</option>
+              <option>TRANSPORT</option>
+              <option>REPAS</option>
+              <option>HEBERGEMENT</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">Date</label>
+            <input type="date" class="form-control" id="inputAddress2">
+          </div>
+          <div class="col-md-6">
+            <label for="inputAddress2" class="form-label">Amount</label>
+            <input type="text" class="form-control" placeholder="$">
+          </div>
+          <div class="col-md-6">
+            <label for="inputAddress2" class="form-label">Status</label>
+            <input class="form-control" type="text" value="En cours" aria-label="readonly input example" readonly>
+          </div>
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">ID</label>
+            <input type="number" class="form-control" id="inputAddress2">
+          </div>
+          <div class="col-6">
+            <label for="inputAddress" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputAddress">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">UserName</label>
+            <input type="text" class="form-control" id="inputEmail4">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputAddress2">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>-->
+
+
+
+<!--Edit Expense pop up form-->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Expense</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="newDepenseFormGroup">
+          <div class="form-group">
+            <input type="hidden" class="form-control" formControlName="id" placeholder="ID" />
+          </div>
+          <div class="col-6">
+            <label for="inputAddress" class="form-label">Client</label>
+            <input type="text" class="form-control" id="inputAddress" formControlName="client" placeholder="Client Name">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Product/Project</label>
+            <input type="text" class="form-control" id="inputEmail4" formControlName="produit_Projet" placeholder="ex : Oracle">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Intervention Type</label>
+            <select id="inputState" class="form-select h-50" formControlName="typeI">
+              <option selected>Choose...</option>
+              <option>Reunion</option>
+              <option>Installation</option>
+              <option>Maintenance</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Expense Type</label>
+            <select id="inputState" class="form-select h-50" formControlName="typeD">
+              <option selected>Choose...</option>
+              <option>TAXI</option>
+              <option>TRANSPORT</option>
+              <option>REPAS</option>
+              <option>HEBERGEMENT</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">Date</label>
+            <input type="date" class="form-control" id="inputAddress2" formControlName="dateDepense">
+          </div>
+          <div class="col-md-6">
+            <label for="inputAddress2" class="form-label">Amount</label>
+            <input type="text" class="form-control" placeholder="$" formControlName="montant">
+          </div>
+          <div class="col-md-6">
+            <label for="inputAddress2" class="form-label">Status</label>
+            <input class="form-control" type="text" value="En cours" aria-label="readonly input example" readonly formControlName="status">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">ID</label>
+            <input type="number" class="form-control" id="inputAddress2" formControlName="employeId">
+          </div>
+          <div class="col-6">
+            <label for="inputAddress" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputAddress" formControlName="employeFullName">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">UserName</label>
+            <input type="text" class="form-control" id="inputEmail4" formControlName="employeUserName">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputAddress2" formControlName="employeEmail">
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="form-control" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="updateDepense()">Edit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!--
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">ID</label>
+            <input type="number" class="form-control" id="inputAddress2">
+          </div>
+          <div class="col-6">
+            <label for="inputAddress" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputAddress">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">UserName</label>
+            <input type="text" class="form-control" id="inputEmail4">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputAddress2">
+          </div>-->

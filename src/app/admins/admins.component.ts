@@ -12,14 +12,13 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./admins.component.css']
 })
 export class AdminsComponent implements OnInit {
-
   admins! : Observable<Array<Admin>>;
   errorMessage! : string;
   searchFormGroup : FormGroup | undefined ;
   formModal:any;
   newAdminFormGroup! : FormGroup
   adm: Admin = new Admin()
-  constructor(private adminService : AdminService, private fb : FormBuilder , private router:Router) { }
+  constructor(private adminService : AdminService, private fb : FormBuilder) { }
 
   ngOnInit(): void {
     this.searchFormGroup=this.fb.group({
