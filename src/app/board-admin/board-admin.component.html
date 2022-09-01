@@ -1,0 +1,102 @@
+<div class="container mt-4">
+  <ol class="breadcrumb border border-white">
+    <li class="breadcrumb-item"><a routerLink="/admindash"><i class="mdi mdi-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">Admins Management</li>
+  </ol>
+  <ng-container *ngIf="admin | async as listAdmin ; else failure">
+    <div class="card border-white">
+      <div class="card-header bg-transparent mt-2">
+        <div class="d-flex flex-row-reverse bd-highligh" >
+          <form class="w-25">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Insert keyword">
+              <button class="btn btn-primary"><i class="mdi mdi-magnify"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>UserName</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Details</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of admin |async">
+              <td>{{m.id}}</td>
+              <td>{{m.username}}</td>
+              <td>{{m.email}}</td>
+              <td>{{m.password}}</td>
+              <td>
+                <button class="btn btn-primary">
+                  <i class="mdi mdi-open-in-new"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="handleEditAdmin(m)">
+                  <i class="mdi mdi-pen"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="handleDeleteAdmin(m)">
+                  <i class="mdi mdi-account-minus"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failure>
+    <div class="text-danger">{{errorMessage}}</div></ng-template>
+</div>
+
+
+
+
+
+<!---Edit Admin-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit Admin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="newAdminFormGroup">
+          <div class="col-md-12">
+            <label for="inputEmail4" class="form-label">ID</label>
+            <input type="text" class="form-control" formControlName="id" placeholder="#ID" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="col-md-12">
+            <label for="inputEmail4" class="form-label">Username</label>
+            <input type="text" class="form-control" formControlName="username" placeholder="@Username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="col-md-12">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" formControlName="email" id="inputEmail4" placeholder="xxxx@gmail.com">
+          </div>
+          <div class="col-md-12">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input class="form-control" id="inputPassword4" formControlName="password" type="text" value="Readonly input here..." aria-label="readonly input example" readonly>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="updateAdmin()">Edit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

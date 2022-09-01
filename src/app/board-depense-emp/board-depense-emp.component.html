@@ -1,0 +1,186 @@
+<div class="container mt-4">
+  <ol class="breadcrumb border border-white">
+    <li class="breadcrumb-item"><a routerLink="/admindash"><i class="mdi mdi-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">Expenses Management</li>
+  </ol>
+  <ng-container *ngIf="depense | async as listDepense ; else failure">
+    <div class="card border-white">
+      <div class="card-header bg-transparent mt-2">
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <i class="mdi mdi-database-plus"></i>
+          </button>
+          <form  class="w-25">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Insert keyword">
+              <button class="btn btn-primary"><i class="mdi mdi-magnify"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Client</th>
+              <th>Product / Project</th>
+              <th>Intervention Type</th>
+              <th>Expenses Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Details</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of depense |async">
+              <td>{{d.dateDepense}}</td>
+              <td>{{d.client}}</td>
+              <td>{{d.produit_Projet}}</td>
+              <td>{{d.typeI}}</td>
+              <td>{{d.typeD}}</td>
+              <td>{{d.montant}}</td>
+              <td>{{d.status}}</td>
+              <td>
+                <button class="btn btn-primary">
+                  <i class="mdi mdi-open-in-new"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-success" >
+                  <i class="mdi mdi-lead-pencil" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="handleEditDepense(d)"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger">
+                  <i class="mdi mdi-database-minus" (click)="handleDeleteDepense(d)"></i>
+                </button>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </ng-container>
+  <ng-template #failure>
+    <div class="text-danger">{{errorMessage}}</div></ng-template>
+</div>
+
+<!--Add Expense-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Expense</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="newDepenseFormGroup">
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Date</label>
+            <input type="date" class="form-control" formControlName="dateDepense" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Client</label>
+            <input type="text" class="form-control" formControlName="client" id="inputPassword4">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Product - Project</label>
+            <input type="text" class="form-control" formControlName="produit_Projet" id="inputAddress" placeholder="ex : Oracle">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Invention Type</label>
+            <input type="text" class="form-control" formControlName="typeI" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Expense Type</label>
+            <select class="form-select form-select-lg mb-3" formControlName="typeD" aria-label="Default select example">
+              <option value="Taxi">Taxi</option>
+              <option value="Transport">Transport</option>
+              <option value="Repas">Repas</option>
+              <option value="Hebergement">Hebergement</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Amount (DH)</label>
+            <input type="number" class="form-control" formControlName="montant" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Status</label>
+            <input class="form-control" type="text" formControlName="status" aria-label="readonly input example" readonly>
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Emp username</label>
+            <input class="form-control" type="text" formControlName="username"  aria-label="readonly input example" readonly>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="addDepense()">Add</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!--Edit Expense-->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Expense</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="newDepenseFormGroup">
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Date</label>
+            <input type="date" class="form-control" formControlName="dateDepense" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Client</label>
+            <input type="text" class="form-control" formControlName="client" id="inputPassword4">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Product - Project</label>
+            <input type="text" class="form-control" formControlName="produit_Projet" id="inputAddress" placeholder="ex : Oracle">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Invention Type</label>
+            <input type="text" class="form-control" formControlName="typeI" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Expense Type</label>
+            <select class="form-select form-select-lg mb-3" formControlName="typeD" aria-label="Default select example">
+              <option value="Taxi">Taxi</option>
+              <option value="Transport">Transport</option>
+              <option value="Repas">Repas</option>
+              <option value="Hebergement">Hebergement</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Amount (DH) </label>
+            <input type="number" class="form-control" formControlName="montant" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Status</label>
+            <input class="form-control" type="text" formControlName="status" aria-label="readonly input example" readonly>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="updateDepense()">Edit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'gestion-note-front'`, () => {
+  it(`should have as title 'Angular13JwtAuth'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('gestion-note-front');
+    expect(app.title).toEqual('Angular13JwtAuth');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('gestion-note-front app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Angular13JwtAuth app is running!');
   });
 });
